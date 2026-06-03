@@ -1,0 +1,37 @@
+site_name: Lakehouse Medalhão — Databricks
+site_description: Trabalho 3 — Arquitetura Medalhão no Databricks Free Edition
+repo_url: https://github.com/Theordep/LAKEHOUSE-COM-DATABRICKS-E-ARQUITETURA-MEDALHAO
+repo_name: Theordep/LAKEHOUSE-COM-DATABRICKS-E-ARQUITETURA-MEDALHAO
+
+theme:
+  name: material
+  language: pt
+  palette:
+    - scheme: default
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Modo escuro
+    - scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Modo claro
+
+nav:
+  - Início: index.md
+  - Arquitetura Medalhão: arquitetura.md
+  - Pipeline e camadas: pipeline.md
+  - Databricks Job: job.md
+  - Execução local (Landing): execucao-local.md
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true

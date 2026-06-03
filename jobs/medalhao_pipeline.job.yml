@@ -1,0 +1,27 @@
+# Referência para Job Databricks — Trabalho 3
+# Crie via UI (Workflows) ou adapte para Jobs API / Asset Bundles.
+name: medalhao_seguros_pipeline
+tasks:
+  - task_key: validar_landing
+    notebook_task:
+      notebook_path: ../notebooks/000_validar_landing
+  - task_key: preparar_ambiente
+    depends_on:
+      - task_key: validar_landing
+    notebook_task:
+      notebook_path: ../notebooks/001_preparar_ambiente
+  - task_key: bronze
+    depends_on:
+      - task_key: preparar_ambiente
+    notebook_task:
+      notebook_path: ../notebooks/002_bronze
+  - task_key: silver
+    depends_on:
+      - task_key: bronze
+    notebook_task:
+      notebook_path: ../notebooks/003_silver
+  - task_key: gold
+    depends_on:
+      - task_key: silver
+    notebook_task:
+      notebook_path: ../notebooks/004_gold
