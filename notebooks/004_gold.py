@@ -134,7 +134,13 @@ for name, df in [
 
 # MAGIC %sql
 # MAGIC WITH cliente_relacional AS (
-# MAGIC   SELECT codigo_cliente, nome, cpf, sexo, data_nascimento FROM cliente
+# MAGIC   SELECT
+# MAGIC     CAST(codigo_cliente AS INT) AS codigo_cliente,
+# MAGIC     nome,
+# MAGIC     LPAD(CAST(CAST(cpf AS DOUBLE) AS BIGINT) AS STRING), 11, '0') AS cpf,
+# MAGIC     sexo,
+# MAGIC     CAST(data_nascimento AS DATE) AS data_nascimento
+# MAGIC   FROM cliente
 # MAGIC )
 # MAGIC MERGE INTO gold.dim_cliente AS d
 # MAGIC USING cliente_relacional AS r
