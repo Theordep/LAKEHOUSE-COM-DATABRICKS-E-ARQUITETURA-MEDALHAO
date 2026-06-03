@@ -132,15 +132,28 @@ for name, df in [
 
 # COMMAND ----------
 
+# COMMAND ----------
+
+# Ajuste de tipos antes do MERGE (evita CPF em notação científica)
+from pyspark.sql import functions as F
+
+df_cliente = (
+    spark.table("silver.cliente")
+    .select(
+        F.col("CODIGO_CLIENTE").cast("int").alias("codigo_cliente"),
+        F.col("NOME").alias("nome"),
+        F.lpad(F.col("CPF").cast("double").cast("long").cast("string"), 11, "0").alias("cpf"),
+        F.col("SEXO").alias("sexo"),
+        F.col("DATA_NASCIMENTO").cast("date").alias("data_nascimento"),
+    )
+)
+df_cliente.createOrReplaceTempView("cliente")
+
+# COMMAND ----------
+
 # MAGIC %sql
 # MAGIC WITH cliente_relacional AS (
-# MAGIC   SELECT
-# MAGIC     CAST(codigo_cliente AS INT) AS codigo_cliente,
-# MAGIC     nome,
-# MAGIC     LPAD(CAST(CAST(cpf AS DOUBLE) AS BIGINT) AS STRING), 11, '0') AS cpf,
-# MAGIC     sexo,
-# MAGIC     CAST(data_nascimento AS DATE) AS data_nascimento
-# MAGIC   FROM cliente
+# MAGIC   SELECT codigo_cliente, nome, cpf, sexo, data_nascimento FROM cliente
 # MAGIC )
 # MAGIC MERGE INTO gold.dim_cliente AS d
 # MAGIC USING cliente_relacional AS r
